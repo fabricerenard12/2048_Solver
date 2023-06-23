@@ -6,6 +6,7 @@
 
 - Fully playable 2048 game with GUI
 - Monte Carlo based algorithm for finding optimal moves
+- Parallelization of the algorithm with OpenMP to improve performance
 - Auto reset when the game ends
 
 ## Getting Started
