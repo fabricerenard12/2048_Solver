@@ -10,8 +10,8 @@
 
 Game move(Game game, Move move);
 
-void simulate(Game& game, double& score, std::mt19937& localGen);
+void simulate(Game& game, std::mt19937& localGen, double& localScore);
 
-Move performMC(Game game, int numberOfSimulationsPerMove);
+std::map<double, Move, Compare> performMC(Game game, int numberOfSimulationsPerMove);
 
 #endif // !MONTECARLO_H

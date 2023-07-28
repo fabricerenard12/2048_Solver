@@ -16,6 +16,12 @@
 using Grid = std::vector<std::vector<int>>;
 enum class Move { LEFT = 0, RIGHT = 1, UP = 2, DOWN = 3 };
 
+struct Compare {
+	bool operator() (const int& a, const int& b) const {
+		return a > b;
+	}
+};
+
 class Game : public QObject {
 	Q_OBJECT
 public:
@@ -32,7 +38,7 @@ public:
 	friend bool operator==(const Game& left, const Game& right);
 
 public slots:
-	void handleKeyPress(char key, Move bestMove, std::shared_ptr<Game> game);
+	void handleKeyPress(char key, std::map<double, Move, Compare> bestMoves, std::shared_ptr<Game> game);
 
 private:
 	bool merge();
@@ -40,13 +46,15 @@ private:
 	void flip();
 	void transpose();
 	bool addTile();
-	void makeMove(Move move);
+	bool makeMove(Move move);
 
 	Grid grid_;
 	int gridSize_;
 	int score_;
 	std::random_device rd_;
 	std::mt19937 gen_;
+
+	friend class GameWindow;
 };
 
 #endif // !GAME_H

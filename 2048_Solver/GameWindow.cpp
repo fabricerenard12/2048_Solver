@@ -39,7 +39,7 @@ void GameWindow::updateGrid() {
 		}
 	}
 
-	// Reset grid if game finished
+	// Reset game and grid if game finished
 	if (game_->isGameOver()) {
 		game_ = std::make_shared<Game>(gridSize_);
 		updateGrid();
@@ -47,14 +47,15 @@ void GameWindow::updateGrid() {
 }
 
 void GameWindow::keyPressEvent(QKeyEvent* event) {
-	Move bestMove = Move::LEFT;
+	//Move bestMove = Move::LEFT;
+	std::map<double, Move, Compare> bestMoves;
 
 	// Perform Monte Carlo Computation
 	if (event->key() == SPACEBAR_CHAR) {
-		bestMove = performMC(*(game_.get()), NUMBER_OF_SIMULATIONS_PER_MOVE);
+		bestMoves = performMC(*(game_.get()), NUMBER_OF_SIMULATIONS_PER_MOVE);
 	}
 
-	emit keyPressed(event->key(), bestMove, game_);
+	emit keyPressed(event->key(), bestMoves, game_);
 
 	QWidget::keyPressEvent(event);
 	updateGrid();

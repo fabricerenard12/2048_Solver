@@ -124,23 +124,26 @@ bool Game::moveDown() {
     return validMove;
 }
 
-void Game::makeMove(Move move) {
+bool Game::makeMove(Move move) {
+    bool validMove;
     switch (move) {
     case Move::LEFT:
-        moveLeft();
+        validMove = moveLeft();
         break;
     case Move::RIGHT:
-        moveRight();
+        validMove = moveRight();
         break;
     case Move::UP:
-        moveUp();
+        validMove = moveUp();
         break;
     case Move::DOWN:
-        moveDown();
+        validMove = moveDown();
         break;
     default:
         break;
     }
+
+    return validMove;
 }
 
 bool Game::merge() {
@@ -221,7 +224,7 @@ void Game::transpose() {
     }
 }
 
-void Game::handleKeyPress(char key, Move bestMove, std::shared_ptr<Game> game) {
+void Game::handleKeyPress(char key, std::map<double, Move, Compare> bestMoves, std::shared_ptr<Game> game) {
     switch (key) {
     case 'A':
         game->moveLeft();
@@ -236,7 +239,12 @@ void Game::handleKeyPress(char key, Move bestMove, std::shared_ptr<Game> game) {
         game->moveUp();
         break;
     case ' ':
-        game->makeMove(bestMove);
+        for (const auto& pair : bestMoves) {
+            bool validMove = game->makeMove(pair.second);
+            if (validMove) {
+                break;
+            }
+        }
         break;
     default:
         break;
