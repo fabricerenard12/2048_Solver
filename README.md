@@ -13,7 +13,7 @@
 
 ### Prerequisites
 
-- None
+- Windows 10 or 11
 
 ### Installation
 
