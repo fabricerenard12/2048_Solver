@@ -60,32 +60,18 @@ void simulate(Game& game, std::mt19937& localGen, double& localScore) {
 
 std::map<double, Move, Compare> performMC(Game game, int numberOfSimulationsPerMove) {
     std::random_device rd;
+    std::mt19937 gen(rd());
     std::vector<double> scores(4, 0.0);
     std::map<double, Move, Compare> moves;
-
-    // Set number of threads
-    int numThreads = omp_get_num_procs();
-    omp_set_num_threads(numThreads);
-
-    // Generate random numbers generators
-    std::vector<std::mt19937> generators(numThreads);
-    for (int i = 0; i < numThreads; ++i) {
-        generators[i].seed(rd() + i);
-    }
 
     // Compute best move using Monte Carlo Computation
     for (int j = 0; j < 4; j++) {
         Move currentMove = static_cast<Move>(j);
 
-        #pragma omp parallel for
         for (int i = 0; i < numberOfSimulationsPerMove; i++) {
-            int threadIndex = omp_get_thread_num();
-            std::mt19937& localGen = generators[threadIndex];
             Game gameCopy = move(game, currentMove);
             double localScore = 0.0;
-            simulate(gameCopy, localGen, localScore);
-
-            #pragma omp critical
+            simulate(gameCopy, gen, localScore);
             scores[j] += localScore;
         }
     }

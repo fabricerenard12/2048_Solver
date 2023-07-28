@@ -7,7 +7,6 @@
 
 #include <iomanip>
 #include <iostream>
-#include <omp.h>
 #include <random>
 #include <QApplication>
 #include <QDebug>

@@ -6,7 +6,6 @@
 #define MONTECARLO_H
 
 #include "Game.hpp"
-#include <omp.h>
 
 Game move(Game game, Move move);
 

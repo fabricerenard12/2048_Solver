@@ -150,7 +150,6 @@ bool Game::merge() {
     bool merged = false;
 
     // Merge tiles together
-    #pragma omp parallel for reduction(||: merged)
     for (int i = 0; i < gridSize_; i++) {
         bool mergedPrivate = false;
 
@@ -176,7 +175,6 @@ bool Game::compress() {
     bool compressed = false;
 
     // Compress tiles together
-    #pragma omp parallel for reduction(||: compressed)
     for (int i = 0; i < gridSize_; i++) {
         bool compressedPrivate = false;
 
@@ -202,7 +200,6 @@ bool Game::compress() {
 
 void Game::flip() {
     // Flip grid with respect to the vertical axis
-    #pragma omp parallel for
     for (int i = 0; i < gridSize_; i++) {
         for (int j = 0; j < gridSize_ / 2; j++) {
             int temp = grid_[i][j];
@@ -214,7 +211,6 @@ void Game::flip() {
 
 void Game::transpose() {
     // Transpose grid
-    #pragma omp parallel for
     for (int i = 0; i < gridSize_; i++) {
         for (int j = i + 1; j < gridSize_; j++) {
             int temp = grid_[i][j];
