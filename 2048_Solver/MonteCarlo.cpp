@@ -33,7 +33,8 @@ void simulate(Game& game, std::mt19937& localGen, double& localScore) {
     std::uniform_int_distribution<int> intDistribution(minValue, maxValue);
 
     // Simulate game until end
-    while (!game.isGameOver()) {
+    int i = 0;
+    while (!game.isGameOver() || i < 50) {
         Move randomMove = static_cast<Move>(intDistribution(localGen));
 
         switch (randomMove) {
@@ -52,6 +53,8 @@ void simulate(Game& game, std::mt19937& localGen, double& localScore) {
         default:
             break;
         }
+
+        i++;
     }
 
     // Update local score
